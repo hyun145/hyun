@@ -23,4 +23,7 @@ public interface IUserInfoService {
     UserInfoDTO searchUserIdOrPasswordProc(UserInfoDTO pDTO) throws Exception;
 
     int newPasswordProc(UserInfoDTO pDTO) throws Exception;
+
+
+    UserInfoDTO getEmailExistsT(UserInfoDTO pDTO) throws Exception;
 }

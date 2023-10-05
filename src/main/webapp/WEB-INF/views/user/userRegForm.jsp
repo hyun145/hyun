@@ -77,7 +77,6 @@
 
         // 이메일 중복 체크
         function emailExists(f) {
-            console.log("evail.Exists 들어옴 ㅇㅇ ")
             if (f.email.value === "") {
                 alert("이메일을 입력하세요.");
                 f.email.focus();

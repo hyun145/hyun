@@ -69,6 +69,7 @@ public class UserInfoService implements IUserInfoService {
 
             rDTO.setAuthNumber(authNumber); // 인증번호를 결과값에 넣어주기
         }
+
         log.info(this.getClass().getName() + ".emailAuth End!");
         return rDTO;
     }
@@ -146,6 +147,23 @@ public class UserInfoService implements IUserInfoService {
 
         UserInfoDTO rDTO = userInfoMapper.getUserId(pDTO);
 
+
+        int authNumber = ThreadLocalRandom.current().nextInt(100000, 1000000);
+        log.info("authNumber : " + authNumber);
+
+
+        MailDTO dto = new MailDTO();
+
+        dto.setTitle("이메일 중복 확인 인증번호 발송 메일");
+        dto.setContents("인증번호는  " + authNumber + "입니다.");
+        dto.setToMail(EncryptUtil.decAES128CBC(CmmUtil.nvl(pDTO.getEmail())));
+
+        mailService.doSendMail(dto); // 이메일 발송
+
+        dto = null;
+
+        rDTO.setAuthNumber(authNumber);
+
         log.info(this.getClass().getName() + ".searchUserIdOrPasswordProc End!");
 
 
@@ -158,10 +176,43 @@ public class UserInfoService implements IUserInfoService {
         log.info(this.getClass().getName() + ".newPasswordProc Start!");
 
         int success = userInfoMapper.updatePassword(pDTO);
+
+
         log.info(this.getClass().getName() + ".newPasswordProc End!");
 
         return success;
     }
 
+    @Override
+    public UserInfoDTO getEmailExistsT(UserInfoDTO pDTO) throws Exception {
+        log.info(this.getClass().getName() + ".emailAuth Start!");
+
+        // DB 이메일이 존재하는지 SQL 쿼리 실행
+        // SQL 쿼리에 COUNT()를 사용하기 때문에 반드시 조회 결과는 존재함.
+        UserInfoDTO rDTO = userInfoMapper.getEmailExists(pDTO); // 이메일 존재하는지 조회
+
+        String existsYn = CmmUtil.nvl(rDTO.getExistsYn());
+        log.info("existsYn :" + existsYn);
+
+        if (existsYn.equals("Y")) {
+            int authNumber = ThreadLocalRandom.current().nextInt(100000, 1000000);
+            log.info("authNumber : " + authNumber);
+
+            MailDTO dto = new MailDTO();
+
+            dto.setTitle("이메일 확인 인증번호 발송 메일");
+            dto.setContents("인증번호는  " + authNumber + "입니다.");
+            dto.setToMail(EncryptUtil.decAES128CBC(CmmUtil.nvl(pDTO.getEmail())));
+
+            mailService.doSendMail(dto); // 이메일 발송
+
+            dto = null;
+
+            rDTO.setAuthNumber(authNumber); // 인증번호를 결과값에 넣어주기
+        }
+
+        log.info(this.getClass().getName() + ".emailAuth End!");
+        return rDTO;
+    }
 
 }

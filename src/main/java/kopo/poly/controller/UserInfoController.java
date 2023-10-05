@@ -347,12 +347,15 @@ public class UserInfoController {
     }
 
     @GetMapping(value = "searchPassword")
-    public String searchPassword(HttpSession session) {
+    public String searchPassword(HttpSession session, HttpServletRequest request) {
         log.info(this.getClass().getName() + ".user/searchPassword Start!");
 
         session.setAttribute("NEW_PASSWORD", "");
         session.removeAttribute("NEW_PASSWORD");
 
+        String email = CmmUtil.nvl(request.getParameter("email"));
+
+        log.info("email: " + email);
 
         log.info(this.getClass().getName() + ".user/searchPassword End!");
         return "user/searchPassword";
@@ -411,5 +414,23 @@ public class UserInfoController {
         log.info(this.getClass().getName() + ".user/newPasswordProc End!");
 
         return "user/newPasswordResult";
+    }
+    @ResponseBody
+    @PostMapping(value = "getEmailExistsT")
+    public UserInfoDTO getEmailExistsT(HttpServletRequest request) throws Exception {
+        log.info(this.getClass().getName() + ".getEmailExistsT Start!");
+
+        String email = CmmUtil.nvl(request.getParameter("email"));
+
+        log.info("email: " + email);
+
+        UserInfoDTO pDTO = new UserInfoDTO();
+        pDTO.setEmail(EncryptUtil.encAES128CBC(email));
+
+        UserInfoDTO rDTO = Optional.ofNullable(userInfoService.getEmailExistsT(pDTO)).orElseGet(UserInfoDTO::new);
+
+        log.info(this.getClass().getName() + ".getEmailExistsT End!");
+
+        return rDTO;
     }
 }
