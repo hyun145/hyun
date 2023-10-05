@@ -27,4 +27,13 @@ public interface IUserInfoMapper {
 
     UserInfoDTO getLogin(UserInfoDTO pDTO) throws Exception;
 
+
+    UserInfoDTO getUserId(UserInfoDTO pDTO) throws Exception;
+
+    int updatePassword(UserInfoDTO pDTO) throws Exception;
+
+
+
+
+
 }

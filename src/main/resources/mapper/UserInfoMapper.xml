@@ -67,5 +67,24 @@ VALUES (#{userId},
         AND PASSWORD = #{password}
     </select>
 
+    <select id="getUserId" resultType="UserInfoDTO" parameterType="UserInfoDTO">
+        SELECT
+        USER_ID,
+        USER_NAME,
+        EMAIL
+        FROM USER_INFO
+        WHERE 1=1
+        <if test="userId neq null and userId neq '' ">  -- neq는 not equal 이라는 것임.
+            AND USER_ID = #{userId}
+        </if>
+        AND USER_NAME = #{userName}
+        AND EMAIL = #{email}
+    </select>
+
+    <update id="updatePassword" parameterType="UserInfoDTO">
+        UPDATE USER_INFO
+        SET PASSWORD = #{password}
+        WHERE USER_ID = #{userId}
+    </update>
 
 </mapper>

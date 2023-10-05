@@ -20,4 +20,7 @@ public interface IUserInfoService {
 
     UserInfoDTO getLogin(UserInfoDTO pDTO) throws Exception;
 
+    UserInfoDTO searchUserIdOrPasswordProc(UserInfoDTO pDTO) throws Exception;
+
+    int newPasswordProc(UserInfoDTO pDTO) throws Exception;
 }
