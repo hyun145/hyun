@@ -1,7 +1,6 @@
 package kopo.poly.persistance.mapper;
 
 import kopo.poly.dto.MailDTO;
-import kopo.poly.dto.NoticeDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

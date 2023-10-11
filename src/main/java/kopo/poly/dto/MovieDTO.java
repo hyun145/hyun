@@ -6,19 +6,20 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MovieDTO {
-    private String collectTime;
 
-    private String sqe;
+    private String collectTime; // 수집시간
 
-    private String movieRank;
+    private String seq; //수집된 데이터 순번
 
-    private String movieNm;
+    private String movieRank; //영화 순위
 
-    private String movieReserve;
+    private String movieNm; //영화제목
 
-    private String score;
+    private String movieReserve; // 예매율
 
-    private String openDay;
+    private String score; //평점
+
+    private String openDay; //개봉일
 
     private String regId;
 
@@ -27,6 +28,5 @@ public class MovieDTO {
     private String chgId;
 
     private String chgDt;
-
 
 }
